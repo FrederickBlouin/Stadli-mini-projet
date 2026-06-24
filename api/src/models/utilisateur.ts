@@ -8,40 +8,106 @@ export type Utilisateur = {
   updatedAt?: string;
 };
 
+export const utilisateurModel = {
+  tableName: "utilisateurs",
+
+  champs: {
+    courriel: {
+      requis: true,
+      unique: true,
+      max: 50,
+      validations: [
+        {
+          test: (valeur: string = "") => valeur.trim().length > 0,
+          message: "Le courriel est requis",
+        },
+        {
+          test: (valeur: string = "") =>
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valeur),
+          message: "Le courriel doit être valide",
+        },
+        {
+          test: (valeur: string = "") => valeur.length <= 50,
+          message: "Votre courriel doit être entre 1 et 50 caractères",
+        },
+      ],
+    },
+
+    motDePasse: {
+      requis: true,
+      min: 6,
+      max: 255,
+      validations: [
+        {
+          test: (valeur: string = "") => valeur.trim().length > 0,
+          message: "Le mot de passe est requis",
+        },
+        {
+          test: (valeur: string = "") => valeur.length >= 6,
+          message: "Minimum 6 caractères",
+        },
+        {
+          test: (valeur: string = "") =>
+            /^(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*\-]).+$/.test(valeur),
+          message:
+            "Doit contenir au moins 1 majuscule, 1 chiffre et 1 caractère spécial",
+        },
+      ],
+    },
+
+    nom: {
+      requis: true,
+      max: 50,
+      validations: [
+        {
+          test: (valeur: string = "") => valeur.trim().length > 0,
+          message: "Le nom est requis",
+        },
+        {
+          test: (valeur: string = "") =>
+            valeur.length >= 2 && valeur.length <= 50,
+          message: "Doit contenir entre 2 et 50 caractères",
+        },
+      ],
+    },
+
+    prenom: {
+      requis: true,
+      max: 50,
+      validations: [
+        {
+          test: (valeur: string = "") => valeur.trim().length > 0,
+          message: "Le prénom est requis",
+        },
+        {
+          test: (valeur: string = "") =>
+            valeur.length >= 2 && valeur.length <= 50,
+          message: "Doit contenir entre 2 et 50 caractères",
+        },
+      ],
+    },
+
+  },
+};
+
 export const validerUtilisateur = (utilisateur: Utilisateur) => {
   const erreurs: string[] = [];
 
-  if (!utilisateur.courriel?.trim()) erreurs.push("Le courriel est requis");
+  Object.entries(utilisateurModel.champs).forEach(
+    ([nomChamp, configuration]: any) => {
+      const valeur = utilisateur[nomChamp as keyof Utilisateur];
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(utilisateur.courriel)) {
-    erreurs.push("Le courriel doit être valide");
-  }
+      if (!configuration.validations) {
+        return;
+      }
 
-  if (utilisateur.courriel.length > 50) {
-    erreurs.push("Votre courriel doit être entre 1 et 50 caractères");
-  }
-
-  if (!utilisateur.motDePasse?.trim()) erreurs.push("Le mot de passe est requis");
-
-  if (utilisateur.motDePasse.length < 6 || utilisateur.motDePasse.length > 255) {
-    erreurs.push("Minimum 6 caractères");
-  }
-
-  if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*\-]).+$/.test(utilisateur.motDePasse)) {
-    erreurs.push("Doit contenir au moins 1 majuscule, 1 chiffre et 1 caractère spécial");
-  }
-
-  if (!utilisateur.nom?.trim()) erreurs.push("Le nom est requis");
-
-  if (utilisateur.nom.length < 2 || utilisateur.nom.length > 50) {
-    erreurs.push("Le nom doit contenir entre 2 et 50 caractères");
-  }
-
-  if (!utilisateur.prenom?.trim()) erreurs.push("Le prénom est requis");
-
-  if (utilisateur.prenom.length < 2 || utilisateur.prenom.length > 50) {
-    erreurs.push("Le prénom doit contenir entre 2 et 50 caractères");
-  }
+      configuration.validations.forEach((validation: any) => {
+        if (!validation.test(valeur)) {
+          erreurs.push(validation.message);
+        }
+      });
+    }
+  );
 
   return erreurs;
 };

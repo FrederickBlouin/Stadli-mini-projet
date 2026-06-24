@@ -1,15 +1,23 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
 
-const app = new Hono()
+import * as errorsController from "./controllers/errorsController";
 
 // Importe les routes
 import authRoutes from "./routes/auth";
 
+const app = new Hono();
+
 // Utilisation des routes en tant que middleware
 app.route("/auth", authRoutes);
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+app.get("/", (context) => {
+  return context.text("Hello Hono!");
+});
 
-export default app
+// Gestion des erreurs 404
+app.notFound(errorsController.get404);
+
+// Gestion globale des erreurs
+app.onError(errorsController.getErrors);
+
+export default app;

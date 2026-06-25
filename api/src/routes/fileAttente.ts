@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { isAuth } from "../middlewares/isAuth";
 import * as fileAttenteController from "../controllers/fileAttenteController";
 
 const fileAttenteRoutes = new Hono();
@@ -9,7 +10,7 @@ fileAttenteRoutes.get(
 );
 
 fileAttenteRoutes.post(
-  "/evenements/:evenementId/inscription",
+  "/evenements/:evenementId/inscription", isAuth,
   fileAttenteController.inscrireFileAttente
 );
 

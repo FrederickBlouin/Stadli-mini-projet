@@ -1,12 +1,7 @@
 import { Context } from "hono";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { formatErrorResponse } from "../utils/formatErrorResponse";
 
-/**
- * Gestion des erreurs 404.
- *
- * @param context Objet de contexte Hono.
- * @returns Réponse JSON formatée.
- */
 export const get404 = (context: Context) => {
   return context.json(
     formatErrorResponse(
@@ -19,15 +14,8 @@ export const get404 = (context: Context) => {
   );
 };
 
-/**
- * Gestion globale des erreurs.
- *
- * @param erreur Objet d'erreur.
- * @param context Objet de contexte Hono.
- * @returns Réponse JSON formatée.
- */
 export const getErrors = (erreur: unknown, context: Context) => {
-  let statusCode = 500;
+  let statusCode: ContentfulStatusCode = 500;
   let errorType = "Internal Server Error";
   let message = "Une erreur interne est survenue.";
 

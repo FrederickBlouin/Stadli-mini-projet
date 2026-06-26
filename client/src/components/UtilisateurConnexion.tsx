@@ -51,53 +51,59 @@ function UtilisateurConnexion({ onLogin }: UtilisateurConnexionProps) {
   };
 
   return (
-    <form onSubmit={submitData} className="mt-5 mb-3">
-      <div className="mb-3">
-        <label htmlFor="inputCourriel" className="form-label">
-          Courriel
-        </label>
-        <input
-          type="email"
-          className={
-            utilisateurCourrielValide
-              ? "form-control is-invalid"
-              : "form-control"
-          }
-          id="inputCourriel"
-          value={utilisateurCourriel}
-          onChange={(event) => setUtilisateurCourriel(event.target.value)}
-          placeholder="Votre courriel"
-        />
-        {utilisateurCourrielValide && (
-          <p className="invalid-feedback">Votre courriel est invalide</p>
-        )}
-      </div>
+    <div className="row mt-5">
+      <div className="col-md-4">
+        <form onSubmit={submitData}>
+          <div className="mb-3">
+            <label htmlFor="inputCourriel" className="form-label">
+              Courriel
+            </label>
+            <input
+              type="email"
+              className={
+                utilisateurCourrielValide
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
+              id="inputCourriel"
+              value={utilisateurCourriel}
+              onChange={(event) => setUtilisateurCourriel(event.target.value)}
+              placeholder="Votre courriel"
+            />
+            {utilisateurCourrielValide && (
+              <p className="invalid-feedback">Votre courriel est invalide</p>
+            )}
+          </div>
 
-      <div className="mb-3">
-        <label htmlFor="inputMotDePasse" className="form-label">
-          Mot de passe
-        </label>
-        <input
-          type="password"
-          className={
-            utilisateurMotDePasseValide
-              ? "form-control is-invalid"
-              : "form-control"
-          }
-          id="inputMotDePasse"
-          value={utilisateurMotDePasse}
-          onChange={(event) => setUtilisateurMotDePasse(event.target.value)}
-          placeholder="Votre mot de passe"
-        />
-        {utilisateurMotDePasseValide && (
-          <p className="invalid-feedback">Votre mot de passe est invalide</p>
-        )}
-      </div>
+          <div className="mb-3">
+            <label htmlFor="inputMotDePasse" className="form-label">
+              Mot de passe
+            </label>
+            <input
+              type="password"
+              className={
+                utilisateurMotDePasseValide
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
+              id="inputMotDePasse"
+              value={utilisateurMotDePasse}
+              onChange={(event) => setUtilisateurMotDePasse(event.target.value)}
+              placeholder="Votre mot de passe"
+            />
+            {utilisateurMotDePasseValide && (
+              <p className="invalid-feedback">
+                Votre mot de passe est invalide
+              </p>
+            )}
+          </div>
 
-      <button type="submit" className="btn btn-primary">
-        Se connecter
-      </button>
-    </form>
+          <button type="submit" className="btn btn-primary">
+            Se connecter
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
 

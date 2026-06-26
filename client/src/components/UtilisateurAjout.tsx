@@ -103,123 +103,131 @@ function UtilisateurAjout({
   };
 
   return (
-    <form onSubmit={submitData} className="mt-5">
-      <div className="mb-3">
-        <label htmlFor="inputNom" className="form-label">
-          Nom
-        </label>
-        <input
-          type="text"
-          className={
-            utilisateurNomValide ? "form-control is-invalid" : "form-control"
-          }
-          id="inputNom"
-          value={utilisateurNom}
-          onChange={(event) => setUtilisateurNom(event.target.value)}
-          placeholder="Votre nom"
-        />
-        {utilisateurNomValide && (
-          <p className="invalid-feedback">Votre nom est invalide</p>
-        )}
+    <div className="row mt-5">
+      <div className="col-md-4">
+        <form onSubmit={submitData} className="mt-5">
+          <div className="mb-3">
+            <label htmlFor="inputNom" className="form-label">
+              Nom
+            </label>
+            <input
+              type="text"
+              className={
+                utilisateurNomValide
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
+              id="inputNom"
+              value={utilisateurNom}
+              onChange={(event) => setUtilisateurNom(event.target.value)}
+              placeholder="Votre nom"
+            />
+            {utilisateurNomValide && (
+              <p className="invalid-feedback">Votre nom est invalide</p>
+            )}
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="inputPrenom" className="form-label">
+              Prénom
+            </label>
+            <input
+              type="text"
+              className={
+                utilisateurPrenomValide
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
+              id="inputPrenom"
+              value={utilisateurPrenom}
+              onChange={(event) => setUtilisateurPrenom(event.target.value)}
+              placeholder="Votre prénom"
+            />
+            {utilisateurPrenomValide && (
+              <p className="invalid-feedback">
+                Votre prénom doit contenir entre 2 et 50 caractères
+              </p>
+            )}
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="inputCourriel" className="form-label">
+              Courriel
+            </label>
+            <input
+              type="email"
+              className={
+                utilisateurCourrielValide
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
+              id="inputCourriel"
+              value={utilisateurCourriel}
+              onChange={(event) => setUtilisateurCourriel(event.target.value)}
+              placeholder="Votre courriel"
+            />
+            {utilisateurCourrielValide && (
+              <p className="invalid-feedback">Votre courriel est invalide</p>
+            )}
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="inputMotDePasse" className="form-label">
+              Mot de passe
+            </label>
+            <input
+              type="password"
+              className={
+                utilisateurMotDePasseValide
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
+              id="inputMotDePasse"
+              value={utilisateurMotDePasse}
+              onChange={(event) => setUtilisateurMotDePasse(event.target.value)}
+              placeholder="Votre mot de passe"
+            />
+            {utilisateurMotDePasseValide && (
+              <p className="invalid-feedback">
+                Votre mot de passe doit contenir au moins 6 caractères, une
+                majuscule, un chiffre et un caractère spécial
+              </p>
+            )}
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="inputConfirmationMotDePasse" className="form-label">
+              Confirmation du mot de passe
+            </label>
+            <input
+              type="password"
+              className={
+                utilisateurConfirmationMotDePasseValide
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
+              id="inputConfirmationMotDePasse"
+              value={utilisateurConfirmationMotDePasse}
+              onChange={(event) =>
+                setUtilisateurConfirmationMotDePasse(event.target.value)
+              }
+              placeholder="Votre mot de passe"
+            />
+            {utilisateurConfirmationMotDePasseValide && (
+              <p className="invalid-feedback">
+                Votre confirmation est différente de votre mot de passe
+              </p>
+            )}
+          </div>
+
+          {erreurApi && <p className="text-danger">{erreurApi}</p>}
+
+          <button type="submit" className="btn btn-primary">
+            Inscription
+          </button>
+        </form>
       </div>
-
-      <div className="mb-3">
-        <label htmlFor="inputPrenom" className="form-label">
-          Prénom
-        </label>
-        <input
-          type="text"
-          className={
-            utilisateurPrenomValide ? "form-control is-invalid" : "form-control"
-          }
-          id="inputPrenom"
-          value={utilisateurPrenom}
-          onChange={(event) => setUtilisateurPrenom(event.target.value)}
-          placeholder="Votre prénom"
-        />
-        {utilisateurPrenomValide && (
-          <p className="invalid-feedback">
-            Votre prénom doit contenir entre 2 et 50 caractères
-          </p>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="inputCourriel" className="form-label">
-          Courriel
-        </label>
-        <input
-          type="email"
-          className={
-            utilisateurCourrielValide
-              ? "form-control is-invalid"
-              : "form-control"
-          }
-          id="inputCourriel"
-          value={utilisateurCourriel}
-          onChange={(event) => setUtilisateurCourriel(event.target.value)}
-          placeholder="Votre courriel"
-        />
-        {utilisateurCourrielValide && (
-          <p className="invalid-feedback">Votre courriel est invalide</p>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="inputMotDePasse" className="form-label">
-          Mot de passe
-        </label>
-        <input
-          type="password"
-          className={
-            utilisateurMotDePasseValide
-              ? "form-control is-invalid"
-              : "form-control"
-          }
-          id="inputMotDePasse"
-          value={utilisateurMotDePasse}
-          onChange={(event) => setUtilisateurMotDePasse(event.target.value)}
-          placeholder="Votre mot de passe"
-        />
-        {utilisateurMotDePasseValide && (
-          <p className="invalid-feedback">
-            Votre mot de passe doit contenir au moins 6 caractères, une
-            majuscule, un chiffre et un caractère spécial
-          </p>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="inputConfirmationMotDePasse" className="form-label">
-          Confirmation du mot de passe
-        </label>
-        <input
-          type="password"
-          className={
-            utilisateurConfirmationMotDePasseValide
-              ? "form-control is-invalid"
-              : "form-control"
-          }
-          id="inputConfirmationMotDePasse"
-          value={utilisateurConfirmationMotDePasse}
-          onChange={(event) =>
-            setUtilisateurConfirmationMotDePasse(event.target.value)
-          }
-          placeholder="Votre mot de passe"
-        />
-        {utilisateurConfirmationMotDePasseValide && (
-          <p className="invalid-feedback">
-            Votre confirmation est différente de votre mot de passe
-          </p>
-        )}
-      </div>
-
-      {erreurApi && <p className="text-danger">{erreurApi}</p>}
-
-      <button type="submit" className="btn btn-primary">
-        Inscription
-      </button>
-    </form>
+    </div>
   );
 }
 

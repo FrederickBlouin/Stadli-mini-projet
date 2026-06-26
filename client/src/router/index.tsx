@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 
 import AccueilView from "../views/AccueilView";
-// import ConnexionView from "../views/ConnexionView";
+import ConnexionView from "../views/ConnexionView";
 // import InscriptionView from "../views/InscriptionView";
 // import EvenementDetailView from "../views/EvenementDetailView";
 // import NotFoundView from "../views/NotFoundView";
@@ -17,10 +17,10 @@ const router = createBrowserRouter([
         index: true,
         element: <AccueilView />,
       },
-    //   {
-    //     path: "connexion",
-    //     element: <ConnexionView />,
-    //   },
+      {
+        path: "connexion",
+        element: <ConnexionView />,
+      },
     //   {
     //     path: "inscription",
     //     element: <InscriptionView />,

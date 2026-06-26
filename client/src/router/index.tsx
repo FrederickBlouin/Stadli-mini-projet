@@ -4,7 +4,7 @@ import App from "../App";
 
 import AccueilView from "../views/AccueilView";
 import ConnexionView from "../views/ConnexionView";
-// import InscriptionView from "../views/InscriptionView";
+import InscriptionView from "../views/InscriptionView";
 // import EvenementDetailView from "../views/EvenementDetailView";
 // import NotFoundView from "../views/NotFoundView";
 
@@ -21,10 +21,10 @@ const router = createBrowserRouter([
         path: "connexion",
         element: <ConnexionView />,
       },
-    //   {
-    //     path: "inscription",
-    //     element: <InscriptionView />,
-    //   },
+      {
+        path: "inscription",
+        element: <InscriptionView />,
+      },
     //   {
     //     path: "evenements/:evenementId",
     //     element: <EvenementDetailView />,

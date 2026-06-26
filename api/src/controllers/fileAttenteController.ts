@@ -270,3 +270,31 @@ export const createFileAttente = async (context: Context) => {
     );
   }
 };
+
+export const getMonInscription = async (context: Context) => {
+  try {
+    const evenementId = context.req.param("evenementId");
+    const utilisateur = context.get("user") as { id?: string };
+
+    const inscription = await context.env.DB.prepare(
+      "SELECT * FROM files_attente WHERE utilisateurId = ? AND evenementId = ?"
+    )
+      .bind(utilisateur.id, evenementId)
+      .first();
+
+    return context.json(
+      formatSuccessResponse(
+        200,
+        "Statut d'inscription récupéré",
+        { estInscrit: !!inscription },
+        context.req.path
+      ),
+      200
+    );
+  } catch {
+    return context.json(
+      formatErrorResponse(500, "Internal Server Error", "Erreur serveur", context.req.path),
+      500
+    );
+  }
+};

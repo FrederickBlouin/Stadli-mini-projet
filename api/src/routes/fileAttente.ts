@@ -6,12 +6,19 @@ const fileAttenteRoutes = new Hono();
 
 fileAttenteRoutes.get(
   "/evenements/:evenementId/nombre-personnes",
-  fileAttenteController.getNombrePersonnes
+  fileAttenteController.getNombrePersonnes,
 );
 
 fileAttenteRoutes.post(
-  "/evenements/:evenementId/inscription", isAuth,
-  fileAttenteController.inscrireFileAttente
+  "/evenements/:evenementId/inscription",
+  isAuth,
+  fileAttenteController.inscrireFileAttente,
+);
+
+fileAttenteRoutes.get(
+  "/evenements/:evenementId/mon-inscription",
+  isAuth,
+  fileAttenteController.getMonInscription,
 );
 
 fileAttenteRoutes.post("/", fileAttenteController.createFileAttente);

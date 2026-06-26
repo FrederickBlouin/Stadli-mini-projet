@@ -15,6 +15,24 @@ vi.mock("hono/jwt", () => ({
   sign: vi.fn(),
 }));
 
+type ReponseMock = {
+  statusCode: number;
+  body: {
+    status: number;
+    error?: string;
+    message: string;
+    data?: {
+      id?: number;
+      prenom?: string;
+      nom?: string;
+      courriel?: string;
+      token?: string;
+    };
+    path: string;
+    timestamp: string;
+  };
+};
+
 const mockBcryptHash = bcrypt.hash as unknown as ReturnType<typeof vi.fn>;
 const mockBcryptCompare = bcrypt.compare as unknown as ReturnType<typeof vi.fn>;
 const mockSign = sign as unknown as ReturnType<typeof vi.fn>;
@@ -22,7 +40,7 @@ const mockSign = sign as unknown as ReturnType<typeof vi.fn>;
 const mockContext = (
   body: Record<string, unknown> = {},
   utilisateurExistant: unknown = null,
-  path = "/auth/test"
+  path = "/auth/test",
 ) => {
   const first = vi.fn().mockResolvedValue(utilisateurExistant);
 
@@ -73,7 +91,9 @@ describe("authController.signup", () => {
       motDePasse: "Password123!",
     });
 
-    const response = await authController.signup(context as unknown as Context);
+    const response = (await authController.signup(
+      context as unknown as Context,
+    )) as unknown as ReponseMock;
 
     expect(response.statusCode).toBe(400);
     expect(response.body).toMatchObject({
@@ -93,11 +113,13 @@ describe("authController.signup", () => {
       motDePasseConfirmation: "Different123!",
     });
 
-    const response = await authController.signup(context as unknown as Context);
+    const response = (await authController.signup(
+      context as unknown as Context,
+    )) as unknown as ReponseMock;
 
     expect(response.statusCode).toBe(422);
     expect(response.body.message).toBe(
-      "Le mot de passe est différent de celui en confirmation"
+      "Le mot de passe est différent de celui en confirmation",
     );
   });
 
@@ -113,10 +135,12 @@ describe("authController.signup", () => {
       {
         id: 1,
         courriel: "fred@test.com",
-      }
+      },
     );
 
-    const response = await authController.signup(context as unknown as Context);
+    const response = (await authController.signup(
+      context as unknown as Context,
+    )) as unknown as ReponseMock;
 
     expect(response.statusCode).toBe(409);
     expect(response.body.message).toBe("Un utilisateur a déjà ce courriel");
@@ -133,7 +157,9 @@ describe("authController.signup", () => {
       motDePasseConfirmation: "Password123!",
     });
 
-    const response = await authController.signup(context as unknown as Context);
+    const response = (await authController.signup(
+      context as unknown as Context,
+    )) as unknown as ReponseMock;
 
     expect(mockBcryptHash).toHaveBeenCalledWith("Password123!", 12);
     expect(response.statusCode).toBe(201);
@@ -158,7 +184,9 @@ describe("authController.login", () => {
       courriel: "fred@test.com",
     });
 
-    const response = await authController.login(context as unknown as Context);
+    const response = (await authController.login(
+      context as unknown as Context,
+    )) as unknown as ReponseMock;
 
     expect(response.statusCode).toBe(400);
     expect(response.body.message).toBe("Un des paramètres est manquant");
@@ -170,7 +198,9 @@ describe("authController.login", () => {
       motDePasse: "Password123!",
     });
 
-    const response = await authController.login(context as unknown as Context);
+    const response = (await authController.login(
+      context as unknown as Context,
+    )) as unknown as ReponseMock;
 
     expect(response.statusCode).toBe(401);
     expect(response.body.message).toBe("Courriel ou mot de passe invalide");
@@ -190,14 +220,16 @@ describe("authController.login", () => {
         nom: "Blouin",
         courriel: "fred@test.com",
         motDePasse: "hashed-password",
-      }
+      },
     );
 
-    const response = await authController.login(context as unknown as Context);
+    const response = (await authController.login(
+      context as unknown as Context,
+    )) as unknown as ReponseMock;
 
     expect(mockBcryptCompare).toHaveBeenCalledWith(
       "Wrong123!",
-      "hashed-password"
+      "hashed-password",
     );
     expect(response.statusCode).toBe(401);
     expect(response.body.message).toBe("Courriel ou mot de passe invalide");
@@ -218,10 +250,12 @@ describe("authController.login", () => {
         nom: "Blouin",
         courriel: "fred@test.com",
         motDePasse: "hashed-password",
-      }
+      },
     );
 
-    const response = await authController.login(context as unknown as Context);
+    const response = (await authController.login(
+      context as unknown as Context,
+    )) as unknown as ReponseMock;
 
     expect(response.statusCode).toBe(200);
     expect(response.body).toMatchObject({
@@ -229,6 +263,8 @@ describe("authController.login", () => {
       message: "Connexion réussie",
       path: "/auth/test",
     });
-    expect(response.body.data.token).toBe("fake.jwt.token");
+
+    expect(response.body.data).toBeDefined();
+    expect(response.body.data?.token).toBe("fake.jwt.token");
   });
 });

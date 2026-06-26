@@ -12,24 +12,32 @@ function AccueilView() {
   const [evenements, setEvenements] = useState<Evenement[]>([]);
   const [erreurApi, setErreurApi] = useState("");
 
-  const getEvenements = async () => {
-    try {
-      const reponse = await fetch(`${import.meta.env.VITE_API_URL}/evenements`);
-      const data = await reponse.json();
-
-      if (!reponse.ok) {
-        setErreurApi(data.message || "Erreur lors du chargement des événements");
-        return;
-      }
-
-      setEvenements(data.data);
-    } catch {
-      setErreurApi("Impossible de communiquer avec le serveur");
-    }
-  };
-
   useEffect(() => {
-    getEvenements();
+    let annule = false;
+
+    fetch(`${import.meta.env.VITE_API_URL}/evenements`)
+      .then((reponse) => reponse.json())
+      .then((data) => {
+        if (annule) {
+          return;
+        }
+
+        if (data.status !== 200) {
+          setErreurApi(data.message || "Erreur lors du chargement des événements");
+          return;
+        }
+
+        setEvenements(data.data);
+      })
+      .catch(() => {
+        if (!annule) {
+          setErreurApi("Impossible de communiquer avec le serveur");
+        }
+      });
+
+    return () => {
+      annule = true;
+    };
   }, []);
 
   return (

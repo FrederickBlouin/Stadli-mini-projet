@@ -75,16 +75,16 @@ async function afficherResultat(reponse: Response, action: string) {
   try {
     resultat = JSON.parse(texte);
   } catch {
-    console.log(`❌ ${action} : réponse non JSON`);
+    console.log(`échec: ${action} : réponse non JSON`);
     console.log("Status:", reponse.status);
     console.log("Réponse:", texte);
     return;
   }
 
   if (reponse.ok) {
-    console.log(`✅ ${action}`);
+    console.log(`réussie!:  ${action}`);
   } else {
-    console.log(`❌ ${action} : ${resultat.message}`);
+    console.log(`échec:  ${action} : ${resultat.message}`);
   }
 }
 

@@ -14,4 +14,6 @@ fileAttenteRoutes.post(
   fileAttenteController.inscrireFileAttente
 );
 
+fileAttenteRoutes.post("/", fileAttenteController.createFileAttente);
+
 export default fileAttenteRoutes;

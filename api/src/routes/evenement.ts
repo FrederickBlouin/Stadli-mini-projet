@@ -15,4 +15,6 @@ evenementRoutes.get(
   evenementController.getEvenement
 );
 
+evenementRoutes.post("/evenements", evenementController.createEvenement);
+
 export default evenementRoutes;

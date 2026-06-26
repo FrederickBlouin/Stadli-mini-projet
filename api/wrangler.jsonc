@@ -12,5 +12,9 @@
       "database_name": "stadli-mini-projet",
       "database_id": "2cec6c1a-2f5d-43c5-b749-e9768c6e0aec"
     }
-  ]
+  ],
+  "assets": {
+    "directory": "../client/dist",
+    "not_found_handling": "single-page-application"
+  }
 }
